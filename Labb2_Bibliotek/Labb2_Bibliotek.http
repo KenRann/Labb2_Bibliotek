@@ -1,0 +1,6 @@
+@Labb2_Bibliotek_HostAddress = http://localhost:5237
+
+GET {{Labb2_Bibliotek_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
