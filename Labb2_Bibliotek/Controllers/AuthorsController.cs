@@ -12,47 +12,47 @@ namespace Labb2_Bibliotek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class AuthorsController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public MembersController(AppDbContext context)
+        public AuthorsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Members
+        // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMember()
+        public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
         {
-            return await _context.Member.ToListAsync();
+            return await _context.Author.ToListAsync();
         }
 
-        // GET: api/Members/5
+        // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var member = await _context.Member.FindAsync(id);
+            var author = await _context.Author.FindAsync(id);
 
-            if (member == null)
+            if (author == null)
             {
                 return NotFound();
             }
 
-            return member;
+            return author;
         }
 
-        // PUT: api/Members/5
+        // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(int id, Member member)
+        public async Task<IActionResult> PutAuthor(int id, Author author)
         {
-            if (id != member.MemberId)
+            if (id != author.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(member).State = EntityState.Modified;
+            _context.Entry(author).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Labb2_Bibliotek.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(id))
+                if (!AuthorExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Labb2_Bibliotek.Controllers
             return NoContent();
         }
 
-        // POST: api/Members
+        // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Member>> PostMember(Member member)
+        public async Task<ActionResult<Author>> PostAuthor(Author author)
         {
-            _context.Member.Add(member);
+            _context.Author.Add(author);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+            return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
         }
 
-        // DELETE: api/Members/5
+        // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMember(int id)
+        public async Task<IActionResult> DeleteAuthor(int id)
         {
-            var member = await _context.Member.FindAsync(id);
-            if (member == null)
+            var author = await _context.Author.FindAsync(id);
+            if (author == null)
             {
                 return NotFound();
             }
 
-            _context.Member.Remove(member);
+            _context.Author.Remove(author);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MemberExists(int id)
+        private bool AuthorExists(int id)
         {
-            return _context.Member.Any(e => e.MemberId == id);
+            return _context.Author.Any(e => e.Id == id);
         }
     }
 }

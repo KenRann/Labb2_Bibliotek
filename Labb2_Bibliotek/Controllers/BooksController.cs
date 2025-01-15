@@ -12,47 +12,47 @@ namespace Labb2_Bibliotek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MembersController : ControllerBase
+    public class BooksController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public MembersController(AppDbContext context)
+        public BooksController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Members
+        // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMember()
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Member.ToListAsync();
+            return await _context.Books.ToListAsync();
         }
 
-        // GET: api/Members/5
+        // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var member = await _context.Member.FindAsync(id);
+            var book = await _context.Books.FindAsync(id);
 
-            if (member == null)
+            if (book == null)
             {
                 return NotFound();
             }
 
-            return member;
+            return book;
         }
 
-        // PUT: api/Members/5
+        // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(int id, Member member)
+        public async Task<IActionResult> PutBook(int id, Book book)
         {
-            if (id != member.MemberId)
+            if (id != book.BookId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(member).State = EntityState.Modified;
+            _context.Entry(book).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Labb2_Bibliotek.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(id))
+                if (!BookExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Labb2_Bibliotek.Controllers
             return NoContent();
         }
 
-        // POST: api/Members
+        // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Member>> PostMember(Member member)
+        public async Task<ActionResult<Book>> PostBook(Book book)
         {
-            _context.Member.Add(member);
+            _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+            return CreatedAtAction("GetBook", new { id = book.BookId }, book);
         }
 
-        // DELETE: api/Members/5
+        // DELETE: api/Books/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMember(int id)
+        public async Task<IActionResult> DeleteBook(int id)
         {
-            var member = await _context.Member.FindAsync(id);
-            if (member == null)
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
             {
                 return NotFound();
             }
 
-            _context.Member.Remove(member);
+            _context.Books.Remove(book);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MemberExists(int id)
+        private bool BookExists(int id)
         {
-            return _context.Member.Any(e => e.MemberId == id);
+            return _context.Books.Any(e => e.BookId == id);
         }
     }
 }

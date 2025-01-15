@@ -9,7 +9,11 @@
         public int ReleaseYear { get; set; }
         public int Rating { get; set; }
 
-        public ICollection<Author> Author { get; set; } = new List<Author>();
-        public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
+
+        public List<Author> Author { get; set; } = new ();
+        //public List<BookCheckout>? BookCheckouts { get; set; } = new();
+
+        //public ICollection<Author> Author { get; set; } = new List<Author>();
+        //public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
     }
 }
