@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
+using Labb2_Bibliotek.DTO;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -25,7 +26,7 @@ namespace Labb2_Bibliotek.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(a => a.Author).ToListAsync();
         }
 
         // GET: api/Books/5
@@ -76,8 +77,8 @@ namespace Labb2_Bibliotek.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
-        {
+        public async Task<ActionResult<Book>> PostBook(CreateBookDTO CreateBookDTO)
+        {            
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 

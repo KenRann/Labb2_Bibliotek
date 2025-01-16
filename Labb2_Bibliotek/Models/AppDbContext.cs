@@ -12,6 +12,6 @@ namespace Labb2_Bibliotek.Models
         public DbSet<Book> Books { get; set; }
         public DbSet<Member> Member { get; set; }
         public DbSet<BookCheckout> BookCheckouts { get; set; }
-        public DbSet<Labb2_Bibliotek.Classes.Author> Author { get; set; } = default!;
+        public DbSet<Author> Author { get; set; }
     }
 }

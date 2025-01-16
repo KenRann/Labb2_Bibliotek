@@ -1,6 +1,7 @@
 
 using Labb2_Bibliotek.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Labb2_Bibliotek
 {
@@ -12,7 +13,10 @@ namespace Labb2_Bibliotek
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options => {
+
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
 
             builder.Services.AddDbContext<AppDbContext>(option =>
             {
@@ -27,6 +31,7 @@ namespace Labb2_Bibliotek
             var app = builder.Build();
             using (var scope = app.Services.CreateScope()) {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.EnsureDeleted();
                 dbContext.Database.EnsureCreated();
             }
 
