@@ -18,9 +18,11 @@ namespace Labb2_Bibliotek
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
 
+            var connectionString = builder.Configuration.GetConnectionString("BooksDb");
+
             builder.Services.AddDbContext<AppDbContext>(option =>
             {
-                option.UseSqlServer("Server=Data-Z;Database=Library; Trusted_Connection = True;TrustServerCertificate=True;");               
+                option.UseSqlServer(connectionString);               
             }
             ); 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

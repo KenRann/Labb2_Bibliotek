@@ -77,7 +77,7 @@ namespace Labb2_Bibliotek.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(CreateBookDTO CreateBookDTO)
+        public async Task<ActionResult<Book>> PostBook(Book book)
         {            
             _context.Books.Add(book);
             await _context.SaveChangesAsync();

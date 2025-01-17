@@ -25,22 +25,22 @@ namespace Labb2_Bibliotek.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
         {
-            return await _context.Author.ToListAsync();
+            return await _context.Author.Include(b => b.Books).ToListAsync();
         }
 
         // GET: api/Authors/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Author>> GetAuthor(int id)
-        {
-            var author = await _context.Author.FindAsync(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Author>> GetAuthor(int id)
+        //{
+        //    var author = await _context.Author.FindAsync(id);
 
-            if (author == null)
-            {
-                return NotFound();
-            }
+        //    if (author == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return author;
-        }
+        //    return author;
+        //}
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
