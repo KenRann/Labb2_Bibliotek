@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -82,6 +83,22 @@ namespace Labb2_Bibliotek.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+        }
+
+        [HttpPost("{id}/Add book to author")]
+        public async Task<ActionResult<Author>> AddBookToAuthor(int id, Book book)
+        {
+            var authorId = _context.Author.FirstOrDefault(a => a.Id == id);
+            if (authorId == null)
+            {
+                return NotFound();
+            }
+            book.Author.Add(authorId);
+
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAuthor", new { id = book.BookId }, book);
         }
 
         // DELETE: api/Authors/5

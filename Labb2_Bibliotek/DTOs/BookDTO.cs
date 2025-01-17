@@ -1,13 +1,14 @@
-﻿using Labb2_Bibliotek.Classes;
-
-namespace Labb2_Bibliotek.DTO
+﻿namespace Labb2_Bibliotek.DTOs
 {
-    public class CreateBookDTO
+    public class BookDTO
     {
         public required string Title { get; set; }
         public string? Isbn { get; set; }
+
         public required int ReleaseYear { get; set; }
         public required string Genre { get; set; }
-        public ICollection<Author> Author { get; set; } = new List<Author>();
+        public int? Rating { get; set; }
+
+        public bool IsCheckedOut { get; set; } = false;
     }
 }
