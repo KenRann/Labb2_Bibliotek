@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
 using Microsoft.CodeAnalysis.FlowAnalysis;
+using Labb2_Bibliotek.DTO;
+using Labb2_Bibliotek.DTOs;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -76,23 +78,71 @@ namespace Labb2_Bibliotek.Controllers
 
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //public async Task<ActionResult<Author>> PostAuthor(Author author)
+        //{
+        //    _context.Author.Add(author);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+        //}
+
         [HttpPost]
-        public async Task<ActionResult<Author>> PostAuthor(Author author)
+        public async Task<ActionResult<Author>> PostAuthor(CreateAuthorDTO createAuthorDto)
         {
+            var author = createAuthorDto.ToAuthor();
             _context.Author.Add(author);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
         }
 
-        [HttpPost("{id}/Add book to author")]
-        public async Task<ActionResult<Author>> AddBookToAuthor(int id, Book book)
+        //------------------------------------------------------------------------------------------------------------
+
+        //[HttpPost("{id}/Add book to author")]
+        //public async Task<ActionResult<Author>> AddBookToAuthor(int id, Book book)
+        //{
+        //    var authorId = _context.Author.FirstOrDefault(a => a.Id == id);
+        //    if (authorId == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    book.Author.Add(authorId);
+
+        //    _context.Books.Add(book);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetAuthor", new { id = book.BookId }, book);
+        //}
+
+        //[HttpPost("{id}")]
+        //public async Task<ActionResult<Author>> AddBookToAuthor(int id, CreateBookDTO createBookDto)
+        //{
+
+        //    var authorId = _context.Author.FirstOrDefault(a => a.Id == id);
+        //    if (authorId == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var book = createBookDto.ToBook();
+        //    book.Author.Add(authorId);
+
+        //    _context.Books.Add(book);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetAuthor", new { id = book.BookId }, book);
+        //}
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Author>> AddBookToAuthor(int id, AddBookToAuthorDTO addBookToAuthorDto)
         {
+
             var authorId = _context.Author.FirstOrDefault(a => a.Id == id);
             if (authorId == null)
             {
                 return NotFound();
             }
+            var book = addBookToAuthorDto.AddBook();
             book.Author.Add(authorId);
 
             _context.Books.Add(book);
@@ -100,6 +150,7 @@ namespace Labb2_Bibliotek.Controllers
 
             return CreatedAtAction("GetAuthor", new { id = book.BookId }, book);
         }
+
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]

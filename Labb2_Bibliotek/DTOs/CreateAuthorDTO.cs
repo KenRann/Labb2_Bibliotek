@@ -2,7 +2,7 @@
 
 namespace Labb2_Bibliotek.DTOs
 {
-    public class CreateAuthor
+    public class CreateAuthorDTO
     {
         public required string Name { get; set; }
         public ICollection<Book>? Books { get; set; } = new List<Book>();

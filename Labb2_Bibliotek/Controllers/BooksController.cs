@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
 using Labb2_Bibliotek.DTO;
+using Labb2_Bibliotek.DTOs;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -77,12 +78,13 @@ namespace Labb2_Bibliotek.Controllers
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDto)
         {            
+            var book = createBookDto.ToBook();
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBook", new { id = book.BookId }, book);
+            return CreatedAtAction("GetBook", new { id = book.BookId }, book.ToBookDTO());
         }
 
         // DELETE: api/Books/5
