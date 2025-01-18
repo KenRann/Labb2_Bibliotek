@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
+using Labb2_Bibliotek.DTOs;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -23,23 +24,28 @@ namespace Labb2_Bibliotek.Controllers
 
         // GET: api/Members
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetMember()
+        public async Task<ActionResult<IEnumerable<MemberDTO>>> GetMember()
         {
-            return await _context.Member.ToListAsync();
+            var member = await _context.Member.ToListAsync();
+
+            var memberDto = member.Select(m => m.ToMemberDto()).ToList();
+            return memberDto;
         }
 
         // GET: api/Members/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> GetMember(int id)
+        public async Task<ActionResult<MemberDTO>> GetMember(int id)
         {
             var member = await _context.Member.FindAsync(id);
-
+            
             if (member == null)
             {
                 return NotFound();
             }
 
-            return member;
+            var memberDto = member.ToMemberDto();
+
+            return memberDto;
         }
 
         // PUT: api/Members/5
@@ -76,12 +82,13 @@ namespace Labb2_Bibliotek.Controllers
         // POST: api/Members
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Member>> PostMember(Member member)
+        public async Task<ActionResult<Member>> PostMember(CreateMemberDTO createMemberDto)
         {
+            var member = createMemberDto.ToMember();
             _context.Member.Add(member);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+            return CreatedAtAction("GetMember", new { id = member.MemberId }, member.ToMemberDto());
         }
 
         // DELETE: api/Members/5

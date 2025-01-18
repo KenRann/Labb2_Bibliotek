@@ -7,9 +7,10 @@ namespace Labb2_Bibliotek.DTOs
 {
     public static class DTOExtensions
     {
+        //inputs
         public static Book ToBook(this CreateBookDTO createBookDto)
         {
-            var book = new Book
+            return new Book
             {
                 Title = createBookDto.Title,
                 Genre = createBookDto.Genre,
@@ -17,12 +18,12 @@ namespace Labb2_Bibliotek.DTOs
                 ReleaseYear = createBookDto.ReleaseYear,
                 Author = createBookDto.Author.Select(a => new Author { Name = a.Name }).ToList()
             };
-            return book;
         }
 
+        // what to show
         public static BookDTO ToBookDTO(this Book book)
         {
-            var bookDto = new BookDTO
+            return new BookDTO
             {
                 Id = book.BookId,
                 Title = book.Title,
@@ -33,7 +34,6 @@ namespace Labb2_Bibliotek.DTOs
                 Rating = book.Rating,
                 Authors = book.Author.Select(a => new AuthorDTO { Name = a.Name, Id = a.Id }).ToList()
             };
-            return bookDto;
         }
 
         public static Book AddBook(this AddBookToAuthorDTO addBookToAuthorDto)
@@ -47,6 +47,7 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
+        //inputs
         public static Author ToAuthor(this CreateAuthorDTO createAuthorDto)
         {
             return new Author
@@ -55,6 +56,7 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
+        //what to show
         public static AuthorDTO ToAuthorDto(this Author author)
         {
             return new AuthorDTO
@@ -69,6 +71,33 @@ namespace Labb2_Bibliotek.DTOs
                     Genre= b.Genre,
                     Rating= b.Rating           
                 }).ToList()
+            };
+        }
+
+        //inputs
+        public static Member ToMember(this CreateMemberDTO memberDto)
+        {
+            return new Member
+            {
+                FirstName = memberDto.FirstName,
+                LastName = memberDto.LastName,
+                Email = memberDto.Email,
+                Phone = memberDto.Phone,
+                RegisteredMembership = DateTime.UtcNow
+            };
+        }
+
+        //what to show
+        public static MemberDTO ToMemberDto(this Member member)
+        {
+            return new MemberDTO
+            {
+                MemberId = member.MemberId,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                Email = member.Email,
+                Phone = member.Phone,
+                RegisteredMembership = DateOnly.FromDateTime(member.RegisteredMembership)
             };
         }
     }
