@@ -11,6 +11,6 @@ namespace Labb2_Bibliotek.DTOs
         public int? Rating { get; set; }
         public bool IsCheckedOut { get; set; } = false;
 
-        public ICollection<Author>? Authors { get; set; } = new List<Author>();
+        public ICollection<AuthorDTO>? Authors { get; set; } = new List<AuthorDTO>();
     }
 }

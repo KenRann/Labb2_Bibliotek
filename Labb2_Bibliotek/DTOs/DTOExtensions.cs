@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.DTO;
+using System.Reflection;
 
 namespace Labb2_Bibliotek.DTOs
 {
@@ -47,8 +48,24 @@ namespace Labb2_Bibliotek.DTOs
         {
             return new Author
             {
-                Name = createAuthorDto.Name,
-                Books = createAuthorDto.Books?.Select(b => new Book { Title = b.Title, Isbn = b.Isbn, ReleaseYear = b.ReleaseYear, Genre = b.Genre }).ToList() ?? new List<Book>()
+                Name = createAuthorDto.Name,              
+            };
+        }
+
+        public static AuthorDTO ToAuthorDto(this Author author)
+        {
+            return new AuthorDTO
+            {
+                Name = author.Name,
+                Books = author.Books?.Select(b => new BookDTO
+                {
+                    Title = b.Title,
+                    ReleaseYear= b.ReleaseYear,
+                    Isbn = b.Isbn,
+                    Genre= b.Genre,
+                    Rating= b.Rating,
+                    
+                }).ToList()
             };
         }
     }

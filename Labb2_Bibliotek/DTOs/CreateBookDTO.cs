@@ -1,4 +1,5 @@
 ﻿using Labb2_Bibliotek.Classes;
+using Labb2_Bibliotek.DTOs;
 using System.Text.Json.Serialization;
 
 namespace Labb2_Bibliotek.DTO
@@ -11,5 +12,6 @@ namespace Labb2_Bibliotek.DTO
         public required string Genre { get; set; }
         
         public ICollection<Author> Author { get; set; } = new List<Author>();
+        //public ICollection<Author> Author { get; set; } = new List<Author>();
     }
 }

@@ -6,6 +6,6 @@ namespace Labb2_Bibliotek.DTOs
     {
         public required string Name { get; set; }
 
-        public ICollection<Book>? Books { get; set; } = new List<Book>();
+        public ICollection<BookDTO>? Books { get; set; } = new List<BookDTO>();
     }
 }

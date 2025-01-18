@@ -31,9 +31,9 @@ namespace Labb2_Bibliotek.Controllers
             return await _context.Author.Include(b => b.Books).ToListAsync();
         }
 
-        // GET: api/Authors/5
+        //GET: api/Authors/5
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<Author>> GetAuthor(int id)
+        //public async Task<ActionResult<AuthorDTO>> GetAuthor(int id)
         //{
         //    var author = await _context.Author.FindAsync(id);
 
@@ -42,8 +42,23 @@ namespace Labb2_Bibliotek.Controllers
         //        return NotFound();
         //    }
 
-        //    return author;
+
+        //    return author.ToAuthorDto();
         //}
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AuthorDTO>> GetAuthor(int id)
+        {
+            var author = await _context.Author.Include(b => b.Books).FirstOrDefaultAsync(a => a.Id == id);
+
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+
+            return author.ToAuthorDto();
+        }
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -94,7 +109,7 @@ namespace Labb2_Bibliotek.Controllers
             _context.Author.Add(author);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+            return CreatedAtAction("GetAuthor", new { id = author.Id }, author.ToAuthorDto());
         }
 
         //------------------------------------------------------------------------------------------------------------
