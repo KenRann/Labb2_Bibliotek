@@ -24,24 +24,42 @@ namespace Labb2_Bibliotek.Controllers
         }
 
         // GET: api/Books
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        //{
+        //    return await _context.Books.ToListAsync();
+        //}
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
-            return await _context.Books.Include(a => a.Author).ToListAsync();
+            var books = await _context.Books
+            .Include(b => b.Author)
+            .ToListAsync();
+
+            var bookDto = books
+                .Select(b => b.ToBookDTO())
+                .ToList();
+
+            return bookDto;
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                .Include(a => a.Author)
+                .FirstOrDefaultAsync(b => b.BookId == id);
 
             if (book == null)
             {
                 return NotFound();
             }
+            
+            var bookDto = book.ToBookDTO();
 
-            return book;
+            return bookDto;
         }
 
         // PUT: api/Books/5
@@ -79,7 +97,7 @@ namespace Labb2_Bibliotek.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(CreateBookDTO createBookDto)
-        {            
+        {                    
             var book = createBookDto.ToBook();
             _context.Books.Add(book);
             await _context.SaveChangesAsync();

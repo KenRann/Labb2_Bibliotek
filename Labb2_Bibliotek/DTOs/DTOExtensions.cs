@@ -9,28 +9,31 @@ namespace Labb2_Bibliotek.DTOs
     {
         public static Book ToBook(this CreateBookDTO createBookDto)
         {
-            return new Book
+            var book = new Book
             {
                 Title = createBookDto.Title,
                 Genre = createBookDto.Genre,
                 Isbn = createBookDto.Isbn,
                 ReleaseYear = createBookDto.ReleaseYear,
-                Author = createBookDto.Author,
-                
+                Author = createBookDto.Author.Select(a => new Author { Name = a.Name }).ToList()
             };
+            return book;
         }
 
         public static BookDTO ToBookDTO(this Book book)
         {
-            return new BookDTO
+            var bookDto = new BookDTO
             {
+                Id = book.BookId,
                 Title = book.Title,
                 Genre = book.Genre,
                 Isbn = book.Isbn,
                 ReleaseYear = book.ReleaseYear,
                 IsCheckedOut = book.IsCheckedOut,
                 Rating = book.Rating,
+                Authors = book.Author.Select(a => new AuthorDTO { Name = a.Name, Id = a.Id }).ToList()
             };
+            return bookDto;
         }
 
         public static Book AddBook(this AddBookToAuthorDTO addBookToAuthorDto)
@@ -40,7 +43,7 @@ namespace Labb2_Bibliotek.DTOs
                 Title = addBookToAuthorDto.Title,
                 Genre = addBookToAuthorDto.Genre,
                 ReleaseYear = addBookToAuthorDto.ReleaseYear,
-                Isbn= addBookToAuthorDto.Isbn,
+                Isbn= addBookToAuthorDto.Isbn
             };
         }
 
@@ -48,7 +51,7 @@ namespace Labb2_Bibliotek.DTOs
         {
             return new Author
             {
-                Name = createAuthorDto.Name,              
+                Name = createAuthorDto.Name             
             };
         }
 
@@ -57,14 +60,14 @@ namespace Labb2_Bibliotek.DTOs
             return new AuthorDTO
             {
                 Name = author.Name,
+                Id = author.Id,
                 Books = author.Books?.Select(b => new BookDTO
-                {
+                {                   
                     Title = b.Title,
                     ReleaseYear= b.ReleaseYear,
                     Isbn = b.Isbn,
                     Genre= b.Genre,
-                    Rating= b.Rating,
-                    
+                    Rating= b.Rating           
                 }).ToList()
             };
         }

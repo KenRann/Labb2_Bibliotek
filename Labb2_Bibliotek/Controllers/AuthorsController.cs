@@ -28,8 +28,12 @@ namespace Labb2_Bibliotek.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
         {
-            return await _context.Author.Include(b => b.Books).ToListAsync();
+            var authors = await _context.Author.Select(a => new Author { Name = a.Name, Id = a.Id}).ToListAsync();
+
+            return authors;
         }
+
+
 
         //GET: api/Authors/5
         //[HttpGet("{id}")]

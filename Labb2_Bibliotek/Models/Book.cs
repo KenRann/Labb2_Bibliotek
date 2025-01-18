@@ -13,6 +13,7 @@ namespace Labb2_Bibliotek.Classes
         public int? Rating { get; set; }
 
         public ICollection<Author> Author { get; set; } = new List<Author>();
-        public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
+
+        //public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
     }
 }

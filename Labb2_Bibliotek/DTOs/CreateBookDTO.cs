@@ -11,7 +11,6 @@ namespace Labb2_Bibliotek.DTO
         public required int ReleaseYear { get; set; }
         public required string Genre { get; set; }
         
-        public ICollection<Author> Author { get; set; } = new List<Author>();
-        //public ICollection<Author> Author { get; set; } = new List<Author>();
+        public ICollection<AuthorDTO> Author { get; set; } = new List<AuthorDTO>();
     }
 }
