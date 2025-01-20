@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
 using Microsoft.CodeAnalysis.FlowAnalysis;
-using Labb2_Bibliotek.DTO;
 using Labb2_Bibliotek.DTOs;
+using Labb2_Bibliotek.DTOs.CreateDTOs;
 
 namespace Labb2_Bibliotek.Controllers
 {

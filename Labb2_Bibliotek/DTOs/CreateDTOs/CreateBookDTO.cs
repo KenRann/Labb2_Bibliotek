@@ -2,7 +2,7 @@
 using Labb2_Bibliotek.DTOs;
 using System.Text.Json.Serialization;
 
-namespace Labb2_Bibliotek.DTO
+namespace Labb2_Bibliotek.DTOs.CreateDTOs
 {
     public class CreateBookDTO
     {
@@ -10,7 +10,7 @@ namespace Labb2_Bibliotek.DTO
         public string? Isbn { get; set; }
         public required int ReleaseYear { get; set; }
         public required string Genre { get; set; }
-        
+
         public ICollection<AuthorDTO> Author { get; set; } = new List<AuthorDTO>();
     }
 }

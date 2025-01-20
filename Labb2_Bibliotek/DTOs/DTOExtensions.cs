@@ -1,13 +1,14 @@
 ﻿using Humanizer;
 using Labb2_Bibliotek.Classes;
-using Labb2_Bibliotek.DTO;
+using Labb2_Bibliotek.DTOs.CreateDTOs;
 using System.Reflection;
 
 namespace Labb2_Bibliotek.DTOs
 {
     public static class DTOExtensions
     {
-        //inputs
+        // -- Book --
+        //Create
         public static Book ToBook(this CreateBookDTO createBookDto)
         {
             return new Book
@@ -20,7 +21,7 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
-        // what to show
+        // Read
         public static BookDTO ToBookDTO(this Book book)
         {
             return new BookDTO
@@ -36,6 +37,7 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
+        // Add Book to Author
         public static Book AddBook(this AddBookToAuthorDTO addBookToAuthorDto)
         {
             return new Book
@@ -47,7 +49,8 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
-        //inputs
+        // -- Author --
+        //Create
         public static Author ToAuthor(this CreateAuthorDTO createAuthorDto)
         {
             return new Author
@@ -56,7 +59,7 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
-        //what to show
+        //Read
         public static AuthorDTO ToAuthorDto(this Author author)
         {
             return new AuthorDTO
@@ -74,20 +77,21 @@ namespace Labb2_Bibliotek.DTOs
             };
         }
 
-        //inputs
-        public static Member ToMember(this CreateMemberDTO memberDto)
+        // -- Members --
+        //Create
+        public static Member ToMember(this CreateMemberDTO createMemberDto)
         {
             return new Member
             {
-                FirstName = memberDto.FirstName,
-                LastName = memberDto.LastName,
-                Email = memberDto.Email,
-                Phone = memberDto.Phone,
-                RegisteredMembership = DateTime.UtcNow
+                FirstName = createMemberDto.FirstName,
+                LastName = createMemberDto.LastName,
+                Email = createMemberDto.Email,
+                Phone = createMemberDto.Phone,
+                RegisteredMembership = DateTime.Now
             };
         }
 
-        //what to show
+        //Read
         public static MemberDTO ToMemberDto(this Member member)
         {
             return new MemberDTO
