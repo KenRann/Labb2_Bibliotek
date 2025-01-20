@@ -34,8 +34,8 @@ namespace Labb2_Bibliotek.Controllers
         public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
             var books = await _context.Books
-            .Include(b => b.Author)
-            .ToListAsync();
+                        .Include(b => b.Author)
+                        .ToListAsync();
 
             var bookDto = books
                 .Select(b => b.ToBookDTO())

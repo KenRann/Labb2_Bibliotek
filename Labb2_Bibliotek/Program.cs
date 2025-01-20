@@ -31,6 +31,7 @@ namespace Labb2_Bibliotek
             
             
             var app = builder.Build();
+
             using (var scope = app.Services.CreateScope()) {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 //dbContext.Database.EnsureDeleted();

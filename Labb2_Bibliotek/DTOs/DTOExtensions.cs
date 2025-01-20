@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.DTOs.CreateDTOs;
+using Microsoft.CodeAnalysis.Operations;
 using System.Reflection;
 
 namespace Labb2_Bibliotek.DTOs
@@ -26,14 +27,14 @@ namespace Labb2_Bibliotek.DTOs
         {
             return new BookDTO
             {
-                Id = book.BookId,
+                BookId = book.BookId,
                 Title = book.Title,
                 Genre = book.Genre,
                 Isbn = book.Isbn,
                 ReleaseYear = book.ReleaseYear,
                 IsCheckedOut = book.IsCheckedOut,
                 Rating = book.Rating,
-                Authors = book.Author.Select(a => new AuthorDTO { Name = a.Name, Id = a.Id }).ToList()
+                Authors = book.Author.Select(a => new AuthorDTO { Name = a.Name, AuthorId = a.AuthorId }).ToList()
             };
         }
 
@@ -65,9 +66,10 @@ namespace Labb2_Bibliotek.DTOs
             return new AuthorDTO
             {
                 Name = author.Name,
-                Id = author.Id,
+                AuthorId = author.AuthorId,
                 Books = author.Books?.Select(b => new BookDTO
-                {                   
+                {               
+                    BookId = b.BookId,
                     Title = b.Title,
                     ReleaseYear= b.ReleaseYear,
                     Isbn = b.Isbn,
@@ -102,6 +104,27 @@ namespace Labb2_Bibliotek.DTOs
                 Email = member.Email,
                 Phone = member.Phone,
                 RegisteredMembership = DateOnly.FromDateTime(member.RegisteredMembership)
+            };
+        }
+
+        // -- BookCheckout --
+        //Read
+        public static BookCheckoutDTO ToBookCheckoutDTO(this BookCheckout bookCheckout)
+        {
+            return new BookCheckoutDTO
+            {
+                BookCheckoutId = bookCheckout.BookCheckoutId,               
+                CheckedOutDate = bookCheckout.CheckedOutDate,
+                ReturnDate = bookCheckout.ReturnDate,
+                IsReturned = bookCheckout.IsReturned,
+                Book = bookCheckout.Book,
+                Member = new Member { 
+                    MemberId = bookCheckout.Member.MemberId,
+                    FirstName = bookCheckout.Member.FirstName,
+                    LastName = bookCheckout.Member.LastName,
+                    Email= bookCheckout.Member.Email,
+                    Phone = bookCheckout.Member.Phone
+                }
             };
         }
     }

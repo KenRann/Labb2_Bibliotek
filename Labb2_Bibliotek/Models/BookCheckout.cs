@@ -2,10 +2,10 @@
 {
     public class BookCheckout
     {
-        public int Id {  get; set; }
+        public int BookCheckoutId {  get; set; }
         public DateTime CheckedOutDate {  get; set; }
-        public DateTime? ReturnDate { get; set; }
-        public bool IsReturned { get; set; } = false;
+        public DateTime ReturnDate { get; set; }
+        public bool IsReturned { get; set; } = true;
         public required Book Book { get; set; }
         public required Member Member { get; set; }
     }

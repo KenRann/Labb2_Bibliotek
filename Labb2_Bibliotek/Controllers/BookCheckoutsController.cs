@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Labb2_Bibliotek.Classes;
 using Labb2_Bibliotek.Models;
+using Labb2_Bibliotek.DTOs.CreateDTOs;
+using Labb2_Bibliotek.DTOs;
 
 namespace Labb2_Bibliotek.Controllers
 {
@@ -23,9 +25,17 @@ namespace Labb2_Bibliotek.Controllers
 
         // GET: api/BookCheckouts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookCheckout>>> GetBookCheckouts()
+        public async Task<ActionResult<IEnumerable<BookCheckoutDTO>>> GetBookCheckouts()
         {
-            return await _context.BookCheckouts.ToListAsync();
+            var bookCheckouts = await _context.BookCheckouts
+                                .Include(b => b.Book)
+                                .Include(m => m.Member)
+                                //.Include(a => a.Book.Author)
+                                .ToListAsync();
+
+            var bookCheckoutDto = bookCheckouts.Select(b => b.ToBookCheckoutDTO()).ToList();
+
+            return bookCheckoutDto;
         }
 
         // GET: api/BookCheckouts/5
@@ -47,7 +57,7 @@ namespace Labb2_Bibliotek.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBookCheckout(int id, BookCheckout bookCheckout)
         {
-            if (id != bookCheckout.Id)
+            if (id != bookCheckout.BookCheckoutId)
             {
                 return BadRequest();
             }
@@ -76,12 +86,30 @@ namespace Labb2_Bibliotek.Controllers
         // POST: api/BookCheckouts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<BookCheckout>> PostBookCheckout(BookCheckout bookCheckout)
+        public async Task<ActionResult<BookCheckout>> PostBookCheckout(CreateBookCheckoutDTO createBookCheckoutDto)
         {
+            var book = _context.Books.Find(createBookCheckoutDto.BookID);
+            if(book == null)
+                { return NotFound(); }
+
+            var member = _context.Member.Find(createBookCheckoutDto.MemberID);
+            if (member == null)
+                { return NotFound(); }
+
+            var bookCheckout = new BookCheckout
+            {
+                Book = book,
+                Member = member,
+                CheckedOutDate = DateTime.Now,
+                ReturnDate = DateTime.Now.AddDays(21),
+                IsReturned = false
+            };
+            book.IsCheckedOut = true;            
+
             _context.BookCheckouts.Add(bookCheckout);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBookCheckout", new { id = bookCheckout.Id }, bookCheckout);
+            return CreatedAtAction("GetBookCheckout", new { id = bookCheckout.BookCheckoutId }, bookCheckout.ToBookCheckoutDTO());
         }
 
         // DELETE: api/BookCheckouts/5
@@ -102,7 +130,7 @@ namespace Labb2_Bibliotek.Controllers
 
         private bool BookCheckoutExists(int id)
         {
-            return _context.BookCheckouts.Any(e => e.Id == id);
+            return _context.BookCheckouts.Any(e => e.BookCheckoutId == id);
         }
     }
 }

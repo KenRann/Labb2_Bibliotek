@@ -9,6 +9,6 @@
         public required string Phone { get; set; }
         public DateTime RegisteredMembership {  get; set; }
 
-        public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
+        //public ICollection<BookCheckout> BookCheckouts { get; set; } = new List<BookCheckout>();
     }
 }

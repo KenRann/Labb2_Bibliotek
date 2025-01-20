@@ -2,7 +2,7 @@
 {
     public class CreateBookCheckoutDTO
     {
-        public int BookID { get; set; }
-        public int MemberID { get; set; }
+        public required int BookID { get; set; }
+        public required int MemberID { get; set; }
     }
 }

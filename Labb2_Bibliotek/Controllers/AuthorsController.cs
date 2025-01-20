@@ -28,7 +28,7 @@ namespace Labb2_Bibliotek.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
         {
-            var authors = await _context.Author.Select(a => new Author { Name = a.Name, Id = a.Id}).ToListAsync();
+            var authors = await _context.Author.Select(a => new Author { Name = a.Name, AuthorId = a.AuthorId}).ToListAsync();
 
             return authors;
         }
@@ -53,13 +53,12 @@ namespace Labb2_Bibliotek.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AuthorDTO>> GetAuthor(int id)
         {
-            var author = await _context.Author.Include(b => b.Books).FirstOrDefaultAsync(a => a.Id == id);
+            var author = await _context.Author.Include(b => b.Books).FirstOrDefaultAsync(a => a.AuthorId == id);
 
             if (author == null)
             {
                 return NotFound();
             }
-
 
             return author.ToAuthorDto();
         }
@@ -69,7 +68,7 @@ namespace Labb2_Bibliotek.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAuthor(int id, Author author)
         {
-            if (id != author.Id)
+            if (id != author.AuthorId)
             {
                 return BadRequest();
             }
@@ -113,7 +112,7 @@ namespace Labb2_Bibliotek.Controllers
             _context.Author.Add(author);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAuthor", new { id = author.Id }, author.ToAuthorDto());
+            return CreatedAtAction("GetAuthor", new { id = author.AuthorId }, author.ToAuthorDto());
         }
 
         //------------------------------------------------------------------------------------------------------------
@@ -156,7 +155,7 @@ namespace Labb2_Bibliotek.Controllers
         public async Task<ActionResult<Author>> AddBookToAuthor(int id, AddBookToAuthorDTO addBookToAuthorDto)
         {
 
-            var authorId = _context.Author.FirstOrDefault(a => a.Id == id);
+            var authorId = _context.Author.FirstOrDefault(a => a.AuthorId == id);
             if (authorId == null)
             {
                 return NotFound();
@@ -189,7 +188,7 @@ namespace Labb2_Bibliotek.Controllers
 
         private bool AuthorExists(int id)
         {
-            return _context.Author.Any(e => e.Id == id);
+            return _context.Author.Any(e => e.AuthorId == id);
         }
     }
 }
